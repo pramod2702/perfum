@@ -216,6 +216,380 @@
             max-width: 250px !important;
         }
     }
+    
+    /* Mobile Product Horizontal Scroll - Full Screen Width */
+    .products-grid,
+    .products-gri {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 15px !important;
+        padding: 0 15px 15px !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+        -ms-overflow-style: none !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #d4af37 rgba(0, 0, 0, 0.3) !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-scroll-snap-type: mandatory !important;
+    }
+    
+    /* Remove side gaps on mobile */
+    @media (max-width: 991.98px) {
+        .products-grid,
+        .products-gri {
+            margin-left: -15px !important;
+            margin-right: -15px !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            width: calc(100% + 30px) !important;
+        }
+        
+        /* Enhanced touch scrolling */
+        .products-grid,
+        .products-gri {
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            -webkit-transform: translateZ(0) !important;
+            transform: translateZ(0) !important;
+        }
+        
+        /* Touch indicators */
+        .products-grid::before,
+        .products-gri::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(270deg, rgba(212, 175, 55, 0.3), transparent);
+            border-radius: 0 15px 15px 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .products-grid::after,
+        .products-gri::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), transparent);
+            border-radius: 15px 0 0 15px;
+            z-index: 10;
+            pointer-events: none;
+        }
+    }
+        
+    .products-grid::-webkit-scrollbar,
+    .products-gri::-webkit-scrollbar {
+        height: 8px !important;
+    }
+        
+    .products-grid::-webkit-scrollbar-track,
+    .products-gri::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 10px !important;
+    }
+        
+    .products-grid::-webkit-scrollbar-thumb,
+    .products-gri::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+        border-radius: 10px !important;
+        cursor: grab !important;
+    }
+        
+    .products-grid::-webkit-scrollbar-thumb:active,
+    .products-gri::-webkit-scrollbar-thumb:active {
+        cursor: grabbing !important;
+    }
+        
+    .product-card {
+        flex: 0 0 auto !important;
+        min-width: 320px !important;
+        max-width: 320px !important;
+        margin-bottom: 0 !important;
+        scroll-snap-align: start !important;
+        -webkit-scroll-snap-align: start !important;
+        touch-action: pan-x pinch-zoom !important;
+    }
+    
+    /* Collection Page Mobile Full Screen Width */
+    .collection .products-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 15px !important;
+        padding: 0 15px 15px !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-scroll-snap-type: mandatory !important;
+    }
+    
+    /* Remove collection side gaps on mobile */
+    @media (max-width: 991.98px) {
+        .collection .products-grid {
+            margin-left: -15px !important;
+            margin-right: -15px !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            width: calc(100% + 30px) !important;
+        }
+        
+        /* Enhanced touch scrolling for collection */
+        .collection .products-grid {
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            -webkit-transform: translateZ(0) !important;
+            transform: translateZ(0) !important;
+        }
+        
+        /* Touch indicators for collection */
+        .collection .products-grid::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(270deg, rgba(212, 175, 55, 0.3), transparent);
+            border-radius: 0 15px 15px 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .collection .products-grid::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 60px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), transparent);
+            border-radius: 15px 0 0 15px;
+            z-index: 10;
+            pointer-events: none;
+        }
+    }
+        
+    .collection .product-card {
+        flex: 0 0 auto !important;
+        min-width: 320px !important;
+        max-width: 320px !important;
+        margin-bottom: 0 !important;
+        scroll-snap-align: start !important;
+        -webkit-scroll-snap-align: start !important;
+        touch-action: pan-x pinch-zoom !important;
+    }
+    
+    /* Signature Fragrances Section - Compact Spacing */
+    .signature-fragrances {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .signature-fragrances .container {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .signature-fragrances .row {
+        margin-bottom: 1rem !important;
+    }
+    
+    .signature-fragrances .text-center.mb-5 {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .signature-fragrances .display-4 {
+        font-size: 2rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Mobile adjustments for signature fragrances */
+    @media (max-width: 991.98px) {
+        .signature-fragrances {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        
+        .signature-fragrances .text-center.mb-5 {
+            margin-bottom: 0.75rem !important;
+        }
+        
+        .signature-fragrances .display-4 {
+            font-size: 1.5rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+        
+        .signature-fragrances .row {
+            margin-bottom: 0.5rem !important;
+        }
+    }
+    
+    /* Hero Section - Compact Spacing */
+    .hero-section {
+        min-height: 80vh !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    /* Hero content spacing */
+    .hero-content {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    
+    .hero-main-title {
+        font-size: 3rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .hero-description {
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .hero-buttons {
+        margin-top: 1rem !important;
+    }
+    
+    /* Mobile hero adjustments */
+    @media (max-width: 991.98px) {
+        .hero-section {
+            min-height: 60vh !important;
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .hero-content {
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+            text-align: center !important;
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        
+        .hero-main-title {
+            font-size: 2.5rem !important;
+            margin-bottom: 0.25rem !important;
+            line-height: 1.2 !important;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem !important;
+            margin-bottom: 0.5rem !important;
+            line-height: 1.1 !important;
+        }
+        
+        .hero-description {
+            font-size: 0.9rem !important;
+            margin-bottom: 1rem !important;
+            line-height: 1.3 !important;
+            max-width: 90% !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        
+        .hero-buttons {
+            margin-top: 0.75rem !important;
+            text-align: center !important;
+        }
+        
+        .hero-buttons .btn {
+            display: inline-block !important;
+            margin: 0 0.25rem !important;
+        }
+    }
+    
+    /* Small mobile hero adjustments */
+    @media (max-width: 576px) {
+        .hero-section {
+            min-height: 50vh !important;
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+        
+        .hero-content {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.25rem !important;
+            text-align: center !important;
+            width: 95% !important;
+        }
+        
+        .hero-main-title {
+            font-size: 2rem !important;
+            margin-bottom: 0.2rem !important;
+            line-height: 1.1 !important;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem !important;
+            margin-bottom: 0.4rem !important;
+            line-height: 1.1 !important;
+        }
+        
+        .hero-description {
+            font-size: 0.85rem !important;
+            margin-bottom: 0.75rem !important;
+            line-height: 1.2 !important;
+            max-width: 85% !important;
+        }
+        
+        .hero-buttons {
+            margin-top: 0.5rem !important;
+            text-align: center !important;
+        }
+        
+        .hero-buttons .btn {
+            font-size: 0.9rem !important;
+            padding: 0.75rem 1.5rem !important;
+        }
+    }
+    
+    /* Small mobile adjustments */
+    @media (max-width: 480px) {
+        .product-card {
+            min-width: 300px !important;
+            max-width: 300px !important;
+        }
+        
+        .collection .product-card {
+            min-width: 300px !important;
+            max-width: 300px !important;
+        }
+    }
+    
+    /* Extra small mobile adjustments */
+    @media (max-width: 360px) {
+        .product-card {
+            min-width: 280px !important;
+            max-width: 280px !important;
+        }
+        
+        .collection .product-card {
+            min-width: 280px !important;
+            max-width: 280px !important;
+        }
+    }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
