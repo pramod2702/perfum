@@ -144,322 +144,76 @@
             margin: 0 8px !important;
         }
     }
+        
+    /* Mobile Product Horizontal Scroll */
+    .products-grid,
+    .products-gri {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 15px !important;
+        padding: 0 15px 15px !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+        -ms-overflow-style: none !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #d4af37 rgba(0, 0, 0, 0.3) !important;
+    }
+        
+    .products-grid::-webkit-scrollbar,
+    .products-gri::-webkit-scrollbar {
+        height: 6px !important;
+    }
+        
+    .products-grid::-webkit-scrollbar-track,
+    .products-gri::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 10px !important;
+    }
+        
+    .products-grid::-webkit-scrollbar-thumb,
+    .products-gri::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+        border-radius: 10px !important;
+    }
+        
+    .product-card {
+        flex: 0 0 auto !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        margin-bottom: 0 !important;
+    }
+        
+    /* Collection Page Mobile Horizontal Scroll */
+    .collection .products-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        gap: 15px !important;
+        padding: 0 15px 15px !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+        
+    .collection .product-card {
+        flex: 0 0 auto !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+        margin-bottom: 0 !important;
+    }
     
-    /* Mobile Navbar Styles */
-    @media (max-width: 991.98px) {
-        .navbar {
-            padding: 15px !important;
-            background: rgba(10, 10, 10, 0.98) !important;
-            backdrop-filter: blur(15px);
-        }
-        
-        .navbar-brand {
-            font-size: 1.5rem !important;
-            color: #d4af37 !important;
-            font-weight: 700;
-        }
-        
-        .navbar-toggler {
-            display: block !important;
-            border: 2px solid #d4af37 !important;
-            padding: 8px 12px !important;
-            border-radius: 8px;
-            background: rgba(212, 175, 55, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .navbar-toggler:hover {
-            background: rgba(212, 175, 55, 0.2);
-            transform: scale(1.05);
-        }
-        
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-            width: 25px;
-            height: 25px;
-        }
-        
-        /* Redesigned Sidebar */
-        .navbar-collapse {
-            position: fixed;
-            top: 0;
-            left: -100%;
-            width: 85%;
-            max-width: 320px;
-            height: 100vh;
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(26, 26, 26, 0.98)) !important;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-right: 3px solid #d4af37;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1050;
-            overflow-y: auto;
-            padding: 0;
-        }
-        
-        .navbar-collapse.show {
-            left: 0;
-            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
-        }
-        
-        /* Sidebar Header */
-        .navbar-collapse::before {
-            content: '';
-            display: block;
-            height: 80px;
-            background: linear-gradient(135deg, #d4af37, #b8941f);
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        .navbar-collapse::after {
-            content: 'VICTNOW';
-            position: absolute;
-            top: 25px;
-            left: 20px;
-            color: #000;
-            font-size: 1.8rem;
-            font-weight: 700;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        /* Close Button */
-        .navbar-collapse .close-sidebar {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid #d4af37;
-            color: #d4af37;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 18px;
-        }
-        
-        .navbar-collapse .close-sidebar:hover {
-            background: #d4af37;
-            color: #000;
-            transform: rotate(90deg);
-        }
-        
-        /* Navigation Links */
-        .navbar-nav {
-            text-align: left !important;
-            margin: 0 !important;
-            padding: 0 20px;
-        }
-        
-        .navbar-nav .nav-link {
-            padding: 15px 20px !important;
-            font-size: 1rem !important;
-            color: #fff !important;
-            font-weight: 500;
-            border-radius: 8px;
-            margin: 8px 0;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            position: relative;
-        }
-        
-        .navbar-nav .nav-link:hover {
-            color: #d4af37 !important;
-            background: rgba(212, 175, 55, 0.1);
-            border-left-color: #d4af37;
-            transform: translateX(5px);
-        }
-        
-        .navbar-nav .nav-link::before {
-            content: '→';
-            position: absolute;
-            right: 20px;
-            opacity: 0;
-            transition: all 0.3s ease;
-            color: #d4af37;
-        }
-        
-        .navbar-nav .nav-link:hover::before {
-            opacity: 1;
-            right: 15px;
-        }
-        
-        /* Cart and User Auth Section */
-        .navbar-nav.ms-auto {
-            margin-top: 30px !important;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        
-        .navbar-nav.ms-auto .nav-item {
-            margin: 15px 0;
-        }
-        
-        .navbar-nav.ms-auto .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px !important;
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-        }
-        
-        .navbar-nav.ms-auto .nav-link:hover {
-            background: rgba(212, 175, 55, 0.2);
-            border-color: #d4af37;
-        }
-        
-        .navbar-nav.ms-auto .nav-link i {
-            margin-right: 12px;
-            font-size: 1.1rem;
-        }
-        
-        /* Shop Now Button */
-        .btn.btn-sm {
-            width: 100%;
-            padding: 12px 20px !important;
-            font-size: 1rem !important;
-            background: linear-gradient(135deg, #d4af37, #b8941f) !important;
-            border: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn.btn-sm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-        }
-        
-        /* User Dropdown Mobile */
-        .dropdown-menu {
-            position: static !important;
-            transform: none !important;
-            border: none !important;
-            box-shadow: none !important;
-            background: rgba(26, 26, 26, 0.95) !important;
-            margin: 10px 0 !important;
-            border-radius: 8px;
-        }
-        
-        .dropdown-item {
-            padding: 12px 20px !important;
-            font-size: 0.9rem !important;
-            color: #fff !important;
-            border-radius: 4px;
-            margin: 2px 0;
-        }
-        
-        .dropdown-item:hover {
-            background: rgba(212, 175, 55, 0.2) !important;
-            color: #d4af37 !important;
-        }
-        
-        /* Overlay */
-        .navbar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1040;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .navbar-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Hide desktop elements on mobile */
-        .desktop-only {
-            display: none !important;
-        }
-        
-        /* Show mobile elements */
-        .mobile-only {
-            display: block !important;
-        }
-        
-        /* Mobile Product Horizontal Scroll */
-        .products-grid,
-        .products-gri {
-            display: flex !important;
-            flex-direction: row !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            gap: 15px !important;
-            padding: 0 15px 15px !important;
-            scroll-behavior: smooth !important;
-            -webkit-overflow-scrolling: touch !important;
-            -ms-overflow-style: none !important;
-            scrollbar-width: thin !important;
-            scrollbar-color: #d4af37 rgba(0, 0, 0, 0.3) !important;
-        }
-        
-        .products-grid::-webkit-scrollbar,
-        .products-gri::-webkit-scrollbar {
-            height: 6px !important;
-        }
-        
-        .products-grid::-webkit-scrollbar-track,
-        .products-gri::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.3) !important;
-            border-radius: 10px !important;
-        }
-        
-        .products-grid::-webkit-scrollbar-thumb,
-        .products-gri::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #d4af37, #b8941f) !important;
-            border-radius: 10px !important;
-        }
-        
+    /* Small mobile adjustments */
+    @media (max-width: 480px) {
         .product-card {
-            flex: 0 0 auto !important;
-            min-width: 280px !important;
-            max-width: 280px !important;
-            margin-bottom: 0 !important;
-        }
-        
-        /* Collection Page Mobile Horizontal Scroll */
-        .collection .products-grid {
-            display: flex !important;
-            flex-direction: row !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            gap: 15px !important;
-            padding: 0 15px 15px !important;
-            scroll-behavior: smooth !important;
-            -webkit-overflow-scrolling: touch !important;
+            min-width: 250px !important;
+            max-width: 250px !important;
         }
         
         .collection .product-card {
-            flex: 0 0 auto !important;
-            min-width: 280px !important;
-            max-width: 280px !important;
-            margin-bottom: 0 !important;
-        }
-        
-        /* Small mobile adjustments */
-        @media (max-width: 480px) {
-            .product-card {
-                min-width: 250px !important;
-                max-width: 250px !important;
-            }
-            
-            .collection .product-card {
-                min-width: 250px !important;
-                max-width: 250px !important;
-            }
+            min-width: 250px !important;
+            max-width: 250px !important;
         }
     }
     </style>
@@ -469,88 +223,85 @@
 <body style="padding-top: 76px;">
     <!-- Bootstrap Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'home' %}">
-                    VICTNOW
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <!-- Navigation links -->
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/">HOME</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/collection/">COLLECTION</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/corporate-gifting/">CORPORATE GIFTING</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/about/">ABOUT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/reviews/">REVIEWS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="/contact/">CONTACT</a>
-                        </li>
-                    </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                VICTNOW
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation links -->
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/collection/">COLLECTION</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/corporate-gifting/">CORPORATE GIFTING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/about/">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/reviews/">REVIEWS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/contact/">CONTACT</a>
+                    </li>
+                </ul>
+                
+                <!-- Cart and User auth -->
+                <div class="navbar-nav ms-auto d-flex align-items-center">
+                    <!-- Cart -->
+                    <div class="nav-item">
+                        <a href="/cart/" class="nav-link text-warning position-relative" style="padding: 8px 15px;">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
+                        </a>
+                    </div>
                     
-                    <!-- Cart and User auth -->
-                    <div class="navbar-nav ms-auto d-flex align-items-center">
-                        <!-- Cart -->
-                        <div class="nav-item">
-                            <a href="/cart/" class="nav-link text-warning position-relative" style="padding: 8px 15px;">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
-                            </a>
-                        </div>
+                    <!-- User auth -->
+                    <div class="nav-item">
+                        <!-- Logged out state -->
+                        <a href="/login/" class="nav-link text-warning" id="authLink" style="display: block;">
+                            <i class="fas fa-user"></i>
+                        </a>
                         
-                        <!-- User auth -->
-                        <div class="nav-item">
-                            <!-- Logged out state -->
-                            <a href="/login/" class="nav-link text-warning" id="authLink" style="display: block;">
-                                <i class="fas fa-user"></i>
+                        <!-- Logged in state -->
+                        <div class="dropdown" id="userDropdown" style="display: none;">
+                            <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userName" class="ms-1"></span>
                             </a>
-                            
-                            <!-- Logged in state -->
-                            <div class="dropdown" id="userDropdown" style="display: none;">
-                                <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user-circle"></i>
-                                    <span id="userName" class="ms-1"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid #d4af37; border-radius: 10px; padding: 10px;">
-                                    <li>
-                                        <a class="dropdown-item text-warning" href="/orders/" onclick="goToMyOrders(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
-                                            <i class="fas fa-shopping-bag me-2"></i> My Orders
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider" style="border-color: #d4af37;"></li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#" onclick="logout(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
-                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid #d4af37; border-radius: 10px; padding: 10px;">
+                                <li>
+                                    <a class="dropdown-item text-warning" href="/orders/" onclick="goToMyOrders(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                        <i class="fas fa-shopping-bag me-2"></i> My Orders
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider" style="border-color: #d4af37;"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="logout(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        
-                        <!-- Shop Now button -->
-                        <div class="nav-item ms-2">
-                            <a href="/collection/" class="btn btn-warning btn-sm">
-                                Shop Now
-                            </a>
-                        </div>
+                    </div>
+                    
+                    <!-- Shop Now button -->
+                    <div class="nav-item ms-2">
+                        <a href="/collection/" class="btn btn-warning btn-sm">
+                            Shop Now
+                        </a>
                     </div>
                 </div>
             </div>
-        </nav>
-
-    <!-- Mobile Sidebar Overlay -->
-    <div class="navbar-overlay" id="navbarOverlay"></div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <main>
@@ -563,69 +314,6 @@
     
     <!-- Custom JS -->
     <script src="{% static 'js/script.js' %}"></script>
-    
-    <script>
-        // Mobile Sidebar Redesign
-        document.addEventListener('DOMContentLoaded', function() {
-            const navbarToggler = document.querySelector('.navbar-toggler');
-            const navbarCollapse = document.querySelector('.navbar-collapse');
-            const navbarOverlay = document.querySelector('#navbarOverlay');
-            const closeSidebar = document.querySelector('.close-sidebar');
-            
-            // Check if mobile view
-            function isMobile() {
-                return window.innerWidth <= 991.98;
-            }
-            
-            // Handle sidebar toggle
-            if (navbarToggler && navbarCollapse && navbarOverlay) {
-                navbarToggler.addEventListener('click', function(e) {
-                    if (isMobile()) {
-                        e.preventDefault();
-                        navbarCollapse.classList.toggle('show');
-                        navbarOverlay.classList.toggle('show');
-                        document.body.style.overflow = navbarCollapse.classList.contains('show') ? 'hidden' : '';
-                    }
-                });
-            }
-            
-            // Handle close button
-            if (closeSidebar && navbarCollapse && navbarOverlay) {
-                closeSidebar.addEventListener('click', function() {
-                    navbarCollapse.classList.remove('show');
-                    navbarOverlay.classList.remove('show');
-                    document.body.style.overflow = '';
-                });
-            }
-            
-            // Handle overlay click
-            if (navbarOverlay && navbarCollapse) {
-                navbarOverlay.addEventListener('click', function() {
-                    navbarCollapse.classList.remove('show');
-                    navbarOverlay.classList.remove('show');
-                    document.body.style.overflow = '';
-                });
-            }
-            
-            // Handle window resize
-            window.addEventListener('resize', function() {
-                if (!isMobile()) {
-                    navbarCollapse.classList.remove('show');
-                    navbarOverlay.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            });
-            
-            // Handle escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && navbarCollapse.classList.contains('show')) {
-                    navbarCollapse.classList.remove('show');
-                    navbarOverlay.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            });
-        });
-    </script>
     
     <script>
         // Authentication Functions
