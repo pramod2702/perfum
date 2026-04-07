@@ -1217,6 +1217,34 @@
     
     <script>
         // Authentication Functions
+        function initializeMobileDropdown() {
+            console.log('Initializing mobile dropdown...');
+            
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const authLinkMobile = document.getElementById('authLinkMobile');
+            const userDropdownMobile = document.getElementById('userDropdownMobile');
+            
+            console.log('Mobile elements found:', {
+                authLinkMobile: !!authLinkMobile,
+                userDropdownMobile: !!userDropdownMobile,
+                currentUser: !!currentUser
+            });
+            
+            if (authLinkMobile && userDropdownMobile) {
+                if (currentUser) {
+                    // User is logged in - show dropdown, hide login link
+                    authLinkMobile.style.display = 'none';
+                    userDropdownMobile.style.display = 'block';
+                    console.log('Mobile dropdown shown for logged in user');
+                } else {
+                    // User is not logged in - show login link, hide dropdown
+                    authLinkMobile.style.display = 'block';
+                    userDropdownMobile.style.display = 'none';
+                    console.log('Mobile login link shown for logged out user');
+                }
+            }
+        }
+        
         function checkAuthStatus() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             
@@ -1431,6 +1459,15 @@
             
             // Check auth status
             checkAuthStatus();
+            
+            // Ensure mobile dropdown is properly initialized
+            initializeMobileDropdown();
+            
+            // Fallback initialization after delay
+            setTimeout(() => {
+                console.log('Running fallback mobile dropdown initialization...');
+                initializeMobileDropdown();
+            }, 500);
             
             // Update cart count
             updateCartCount();
