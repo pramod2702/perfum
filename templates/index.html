@@ -56,7 +56,7 @@
                 <h2 class="display-4 fw-bold text-warning">Signature Fragrances</h2>
             </div>
         </div>
-        <div class="products-grid d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px;">
+        <div class="products-grid d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; cursor: grab;">
             {% if products %}
                 {% for product in products %}
                 <div class="product-card flex-shrink-0" style="min-width: 280px; max-width: 280px;">
@@ -655,6 +655,59 @@
 .shop-now-btn:focus {
     outline: 3px solid rgba(212, 175, 55, 0.7) !important;
     outline-offset: 2px !important;
+}
+
+/* Mobile Touch Scrolling Fix */
+@media (max-width: 768px) {
+    .products-grid {
+        -webkit-overflow-scrolling: touch !important;
+        scroll-behavior: smooth !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        white-space: nowrap !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(212, 175, 55, 0.3) transparent !important;
+    }
+    
+    .products-grid::-webkit-scrollbar {
+        height: 6px !important;
+        display: block !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 3px !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-thumb {
+        background: rgba(212, 175, 55, 0.5) !important;
+        border-radius: 3px !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-thumb:hover {
+        background: rgba(212, 175, 55, 0.7) !important;
+    }
+    
+    .product-card {
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    .products-grid:active {
+        cursor: grabbing !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .products-grid {
+        padding: 0 10px 15px !important;
+        gap: 15px !important;
+    }
+    
+    .product-card {
+        min-width: 260px !important;
+        max-width: 260px !important;
+    }
 }
 </style>
 
