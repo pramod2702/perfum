@@ -1078,6 +1078,48 @@
         * {
             box-sizing: border-box !important;
         }
+        
+        /* Enhanced Mobile Horizontal Scrolling Fix */
+        @media (max-width: 768px) {
+            .products-grid.d-flex.flex-row.overflow-auto {
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                -webkit-overflow-scrolling: touch !important;
+                scroll-snap-type: x mandatory !important;
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
+                touch-action: pan-x !important;
+                pointer-events: auto !important;
+                white-space: nowrap !important;
+                flex-wrap: nowrap !important;
+            }
+            
+            .products-grid.d-flex.flex-row.overflow-auto::-webkit-scrollbar {
+                display: none !important;
+                width: 0 !important;
+                height: 0 !important;
+            }
+            
+            .products-grid.d-flex.flex-row.overflow-auto .product-card {
+                scroll-snap-align: start !important;
+                flex-shrink: 0 !important;
+                min-width: 280px !important;
+                max-width: 280px !important;
+                display: inline-block !important;
+                vertical-align: top !important;
+                white-space: normal !important;
+            }
+            
+            /* Force touch scrolling to work */
+            .products-grid.d-flex.flex-row.overflow-auto {
+                -webkit-transform: translateZ(0) !important;
+                transform: translateZ(0) !important;
+                -webkit-backface-visibility: hidden !important;
+                backface-visibility: hidden !important;
+                -webkit-perspective: 1000 !important;
+                perspective: 1000 !important;
+            }
+        }
     }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1217,6 +1259,27 @@
     
     <script>
         // Authentication Functions
+        function initializeAllDropdowns() {
+            console.log('Initializing all Bootstrap dropdowns...');
+            
+            // Initialize all dropdown toggles on the page
+            const dropdownToggles = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+            console.log('Found dropdown toggles:', dropdownToggles.length);
+            
+            dropdownToggles.forEach((toggle, index) => {
+                if (window.bootstrap && window.bootstrap.Dropdown) {
+                    try {
+                        new window.bootstrap.Dropdown(toggle);
+                        console.log(`Dropdown ${index} initialized successfully`);
+                    } catch (error) {
+                        console.error(`Error initializing dropdown ${index}:`, error);
+                    }
+                } else {
+                    console.warn('Bootstrap not available for dropdown initialization');
+                }
+            });
+        }
+        
         function initializeMobileDropdown() {
             console.log('Initializing mobile dropdown...');
             
@@ -1236,6 +1299,13 @@
                     authLinkMobile.style.display = 'none';
                     userDropdownMobile.style.display = 'block';
                     console.log('Mobile dropdown shown for logged in user');
+                    
+                    // Initialize Bootstrap dropdown for mobile
+                    const mobileDropdownToggle = userDropdownMobile.querySelector('.dropdown-toggle');
+                    if (mobileDropdownToggle && window.bootstrap) {
+                        new window.bootstrap.Dropdown(mobileDropdownToggle);
+                        console.log('Bootstrap dropdown initialized for mobile');
+                    }
                 } else {
                     // User is not logged in - show login link, hide dropdown
                     authLinkMobile.style.display = 'block';
@@ -1468,6 +1538,13 @@
                 console.log('Running fallback mobile dropdown initialization...');
                 initializeMobileDropdown();
             }, 500);
+            
+            // Additional fallback after Bootstrap is loaded
+            setTimeout(() => {
+                console.log('Running Bootstrap-dependent mobile dropdown initialization...');
+                initializeMobileDropdown();
+                initializeAllDropdowns();
+            }, 1000);
             
             // Update cart count
             updateCartCount();
