@@ -3,6 +3,57 @@
 <head>
     <title>Trail Customer Form - VICTNOW</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Load trial pack price from backend
+        let trialPackPrice = 999.00; // Default fallback
+        let trialPackConfig = {
+            name: 'VICTNOW Trial Pack',
+            description: 'VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each'
+        };
+        
+        // Fetch current trial pack price from API
+        fetch('/api/trial-pack-price/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    trialPackPrice = data.price;
+                    trialPackConfig = {
+                        name: data.name,
+                        description: data.description,
+                        price: data.price
+                    };
+                    updatePriceDisplay();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching trial pack price:', error);
+                updatePriceDisplay();
+            });
+        
+        function updatePriceDisplay() {
+            // Update price displays on the page
+            const priceElements = document.querySelectorAll('.trial-pack-price');
+            priceElements.forEach(element => {
+                element.textContent = `₹${trialPackPrice.toFixed(2)}`;
+            });
+            
+            // Set global variables for Razorpay function
+            window.trialPackPrice = trialPackPrice;
+            window.trialPackConfig = trialPackConfig;
+            
+            // Update Razorpay amount
+            const razorpayButton = document.querySelector('[onclick*="openRazorpayDirect"]');
+            if (razorpayButton) {
+                razorpayButton.setAttribute('data-amount', trialPackPrice * 100); // Convert to paise
+            }
+        }
+        
+        // Update price display when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePriceDisplay();
+        });
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -181,6 +232,43 @@
             transform: translateY(-1px);
         }
         
+        /* Mobile-specific styles for submit button */
+        @media (max-width: 768px) {
+            .submit-btn {
+                padding: 18px 20px !important;
+                font-size: 1.1rem !important;
+                min-height: 55px !important;
+                touch-action: manipulation !important;
+                -webkit-tap-highlight-color: rgba(212, 175, 55, 0.3) !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                position: relative !important;
+                z-index: 10 !important;
+                border-radius: 8px !important;
+            }
+            
+            .submit-btn:active {
+                transform: scale(0.98) !important;
+                box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3) !important;
+            }
+            
+            .submit-btn:disabled {
+                opacity: 0.7 !important;
+                cursor: not-allowed !important;
+                transform: none !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .submit-btn {
+                padding: 16px 18px !important;
+                font-size: 1rem !important;
+                min-height: 50px !important;
+            }
+        }
+        
         .success-message {
             background: rgba(40, 167, 69, 0.1);
             border: 1px solid rgba(40, 167, 69, 0.3);
@@ -249,7 +337,7 @@
                 <textarea id="address" name="address" placeholder="Enter your complete shipping address" required style="min-height: 120px; resize: vertical;"></textarea>
             </div>
             
-            <button type="button" class="submit-btn" onclick="openRazorpayDirect()">
+            <button type="button" class="submit-btn" onclick="openRazorpayDirect()" style="-webkit-tap-highlight-color: rgba(212, 175, 55, 0.3); touch-action: manipulation; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; transition: all 0.3s ease; position: relative; overflow: hidden;">
                 <i class="fas fa-lock" style="margin-right: 10px;"></i>
                 Go to Payment
             </button>
@@ -268,18 +356,40 @@
         const RAZORPAY_KEY = 'rzp_live_SWbTlXM1BhD6RZ';
         
         function openRazorpayDirect() {
-            console.log('Opening Razorpay directly with ₹999');
+            console.log('Opening Razorpay with dynamic price');
+            
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 10px;"></i> Processing...';
+            button.disabled = true;
+            
+            // Check if Razorpay is loaded
+            if (typeof Razorpay === 'undefined') {
+                console.error('Razorpay SDK not loaded');
+                alert('Payment gateway is loading. Please try again in a moment.');
+                button.innerHTML = originalText;
+                button.disabled = false;
+                return;
+            }
+            
+            // Get current price from global variable or use default
+            const currentPrice = window.trialPackPrice || 999.00;
+            const currentConfig = window.trialPackConfig || {
+                name: 'VICTNOW Trial Pack',
+                description: 'VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each'
+            };
             
             const options = {
                 key: 'rzp_live_SWbTlXM1BhD6RZ',
-                amount: 99900, // ₹999 in paise - UPDATED AMOUNT
+                amount: Math.round(currentPrice * 100), // Convert to paise
                 currency: 'INR',
-                name: 'VICTNOW Trial Pack',
-                description: 'VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each',
+                name: currentConfig.name,
+                description: currentConfig.description,
                 image: '/static/images/perfume.png',
                 handler: function (response) {
-                    console.log('Payment successful with amount 99900:', response);
-                    alert('Payment successful! Amount: ₹999, Payment ID: ' + response.razorpay_payment_id);
+                    console.log('Payment successful with amount:', currentPrice, response);
+                    alert('Payment successful! Amount: ₹' + currentPrice.toFixed(2) + ', Payment ID: ' + response.razorpay_payment_id);
                     window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
                 },
                 prefill: {
@@ -293,13 +403,33 @@
                 modal: {
                     ondismiss: function() {
                         console.log('Razorpay modal closed');
-                    }
-                }
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    },
+                    escape: true,
+                    handleback: true
+                },
+                callback_url: '/payment-success/',
+                redirect: false
             };
             
-            console.log('FINAL AMOUNT BEING SENT TO RAZORPAY: 99900 (₹999)');
-            const rzp = new Razorpay(options);
-            rzp.open();
+            console.log('FINAL AMOUNT BEING SENT TO RAZORPAY:', Math.round(currentPrice * 100), '(₹' + currentPrice.toFixed(2) + ')');
+            
+            try {
+                const rzp = new Razorpay(options);
+                rzp.on('payment.failed', function (response) {
+                    console.error('Payment failed:', response.error);
+                    alert('Payment failed: ' + response.error.description);
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                });
+                rzp.open();
+            } catch (error) {
+                console.error('Error opening Razorpay:', error);
+                alert('Unable to open payment gateway. Please try again.');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
         }
         
         function handleTrailPayment(event) {

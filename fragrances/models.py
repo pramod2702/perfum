@@ -342,6 +342,62 @@ class BulkOrderTracking(models.Model):
         return f"Bulk Tracking #{self.bulk_order.id} - {self.tracking_number or 'No tracking'}"
 
 
+class TrialPackPrice(models.Model):
+    """Trial Pack Price Configuration"""
+    name = models.CharField(max_length=100, default="VICTNOW Trial Pack")
+    description = models.TextField(default="VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=999.00, help_text="Price in INR")
+    is_active = models.BooleanField(default=True, help_text="Enable this price for trial pack")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Trial Pack Price"
+        verbose_name_plural = "Trial Pack Prices"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.name} - ₹{self.price}"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one active price exists
+        if self.is_active:
+            TrialPackPrice.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)
+    
+    @classmethod
+    def get_current_price(cls):
+        """Get the currently active trial pack price"""
+        try:
+            active_price = cls.objects.filter(is_active=True).first()
+            return active_price.price if active_price else 999.00
+        except:
+            return 999.00
+    
+    @classmethod
+    def get_current_config(cls):
+        """Get the currently active trial pack configuration"""
+        try:
+            active_config = cls.objects.filter(is_active=True).first()
+            if active_config:
+                return {
+                    'name': active_config.name,
+                    'description': active_config.description,
+                    'price': active_config.price
+                }
+            return {
+                'name': 'VICTNOW Trial Pack',
+                'description': 'VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each',
+                'price': 999.00
+            }
+        except:
+            return {
+                'name': 'VICTNOW Trial Pack',
+                'description': 'VICTNOW MUSE, VICTNOW NEXUS, VICTNOW FORGE - 5ML each',
+                'price': 999.00
+            }
+
+
 class TrialPack(models.Model):
     """Trial Pack orders for VICTNOW trial pack"""
     ORDER_STATUS_CHOICES = [

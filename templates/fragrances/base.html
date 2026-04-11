@@ -343,38 +343,61 @@
         .collection-features .feature-item {
             padding: 15px !important;
         }
-    }
-    
-    /* Increase navbar brand text size on mobile */
-    @media (max-width: 768px) {
-        .navbar-brand {
-            font-size: 2.2rem !important;
-            min-width: 200px !important;
-            width: auto !important;
-            padding: 0 15px !important;
+            
+        .products-grid::-webkit-scrollbar-track,
+        .products-gri::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border-radius: 10px !important;
         }
-    }
-    
-    @media (max-width: 576px) {
-        .navbar-brand {
-            font-size: 2rem !important;
-            min-width: 180px !important;
-            width: auto !important;
-            padding: 0 10px !important;
+            
+        .products-grid::-webkit-scrollbar-thumb,
+        .products-gri::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+            border-radius: 10px !important;
         }
-    }
-    
-    /* Products grid full width on mobile */
-    @media (max-width: 991.98px) {
-        .products-grid,
-        .products-gri {
-            margin-left: -15px !important;
-            margin-right: -15px !important;
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-            width: calc(100% + 30px) !important;
+            
+        .product-card {
+            flex: 0 0 auto !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+            margin-bottom: 0 !important;
+        }
+            
+        /* Collection Page Mobile Horizontal Scroll */
+        .collection .products-grid {
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            gap: 15px !important;
+            padding: 0 15px 15px !important;
             scroll-behavior: smooth !important;
             -webkit-overflow-scrolling: touch !important;
+        }
+            
+        .collection .product-card {
+            flex: 0 0 auto !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Small mobile adjustments */
+        @media (max-width: 480px) {
+            .product-card {
+                min-width: 250px !important;
+                max-width: 250px !important;
+            }
+            
+            .collection .product-card {
+                min-width: 250px !important;
+                max-width: 250px !important;
+            }
+        }
+        
+        /* Mobile Product Horizontal Scroll - Full Screen Width */
+        .products-grid,
+        .products-gri {
             -webkit-transform: translateZ(0) !important;
             transform: translateZ(0) !important;
             overflow-x: scroll !important;
@@ -1052,6 +1075,27 @@
         /* Increase mobile icon sizes */
         .navbar .d-lg-none .nav-link i {
             font-size: 1.8rem !important;
+        }
+        
+        /* Fix navbar brand on mobile to prevent layout issues */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.5rem !important;
+                min-width: auto !important;
+                width: auto !important;
+                flex: 0 0 auto !important;
+                margin-right: auto !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.3rem !important;
+                min-width: auto !important;
+                width: auto !important;
+                flex: 0 0 auto !important;
+                margin-right: auto !important;
+            }
         }
         
         /* Adjust cart count badge for larger icons */

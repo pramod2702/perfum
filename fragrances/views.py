@@ -1654,3 +1654,21 @@ def trail_customer(request):
 def bulk_customer(request):
     """Render the bulk customer form page"""
     return render(request, 'fragrances/bulk_customer.html')
+
+@csrf_exempt
+def trial_pack_price(request):
+    """API endpoint to get current trial pack price"""
+    try:
+        from .models import TrialPackPrice
+        current_config = TrialPackPrice.get_current_config()
+        return JsonResponse({
+            'success': True,
+            'price': current_config['price'],
+            'name': current_config['name'],
+            'description': current_config['description']
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)

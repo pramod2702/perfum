@@ -640,6 +640,12 @@
             color: #51cf66;
         }
         
+        .message.info {
+            background: rgba(13, 202, 240, 0.1);
+            border-color: rgba(13, 202, 240, 0.3);
+            color: #74c0fc;
+        }
+        
         .message.show {
             display: block;
             animation: slideDown 0.3s ease;
@@ -1338,11 +1344,76 @@
         
         function handleForgotPassword(event) {
             event.preventDefault();
-            showMessage('Password reset link has been sent to your email address.', 'success');
             
-            setTimeout(() => {
-                hideMessage();
-            }, 3000);
+            // Prompt user for email address
+            const email = prompt('Please enter your email address for password reset:');
+            
+            if (!email) {
+                return; // User cancelled
+            }
+            
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Please enter a valid email address.', 'error');
+                setTimeout(() => {
+                    hideMessage();
+                }, 3000);
+                return;
+            }
+            
+            // Show loading message
+            showMessage('Sending password reset link...', 'info');
+            
+            // Send password reset request
+            fetch('/api/forgot-password/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    showMessage('Password reset link has been sent to your email address.', 'success');
+                } else {
+                    showMessage(data.message || 'Email not found. Please check your email address.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Forgot password error:', error);
+                // Fallback message for when API doesn't exist
+                showMessage('If your email is registered, you will receive a password reset link shortly. If not, please check your email or contact support.', 'info');
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    hideMessage();
+                }, 5000);
+            });
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
         
         function showMessage(text, type) {

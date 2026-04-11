@@ -28,6 +28,7 @@ urlpatterns = [
     path('reviews/', views.reviews, name='reviews'),
     path('corporate-gifting/', views.corporate_gifting, name='corporate_gifting'),
     path('trail_customer/', views.trail_customer, name='trail_customer'),
+    path('api/trial-pack-price/', views.trial_pack_price, name='trial_pack_price'),
     path('bulk_customer/', views.bulk_customer, name='bulk_customer'),
     path('bulk-order-process/', views.bulk_order_process, name='bulk_order_process'),
     path('test-bulk/', views.test_bulk_order, name='test_bulk_order'),  # Test endpoint

@@ -56,7 +56,7 @@
                 <h2 class="display-4 fw-bold text-warning">Signature Fragrances</h2>
             </div>
         </div>
-        <div class="products-grid d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; cursor: grab;">
+        <div class="products-grid d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; cursor: grab; overflow-x: auto; overflow-y: hidden; white-space: nowrap;" data-scrollable="true">
             {% if products %}
                 {% for product in products %}
                 <div class="product-card flex-shrink-0" style="min-width: 280px; max-width: 280px;">
@@ -93,6 +93,46 @@
                     <p class="text-light">No products available at the moment. Check back soon!</p>
                 </div>
             {% endif %}
+        </div>
+        
+        <!-- Mobile-only scrollable container -->
+        <div class="mobile-products-scroll" style="display: none;">
+            <div style="overflow-x: scroll; overflow-y: hidden; white-space: nowrap; -webkit-overflow-scrolling: touch; width: 100%; padding: 0 15px 15px;">
+                {% if products %}
+                    {% for product in products %}
+                    <span style="display: inline-block; min-width: 280px; max-width: 280px; margin-right: 20px; vertical-align: top;">
+                        <div class="product-card">
+                            <div class="product-image mb-3">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="{% static 'images/perfume.png' %}" class="img-fluid rounded" alt="{{ product.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="product-info text-center">
+                                <h3 class="h5 text-white fw-bold mb-2">{{ product.name }}</h3>
+                                
+                                <!-- Stock Status -->
+                                <div class="stock-status mb-2">
+                                    {% if product.stock_status == 'out_of_stock' %}
+                                        <span class="badge bg-danger">Out of Stock</span>
+                                    {% endif %}
+                                </div>
+                                
+                                <p class="price h4 text-warning mb-3">¥{{ product.price }}</p>
+                                <button class="shop-now-btn add-to-cart-btn w-100 btn btn-warning {% if not product.available %}disabled{% endif %}" 
+                                        data-product-id="{{ product.id }}" 
+                                        data-product-name="{{ product.name|escapejs }}" 
+                                        data-product-price="{{ product.price }}" 
+                                        data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}">
+                                    <i class="fas fa-shopping-cart me-2"></i> {% if product.available %}Add to Cart{% else %}Out of Stock{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </span>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
 </section>
@@ -713,153 +753,20 @@
 /* Enhanced Mobile Touch Scrolling */
 @media (max-width: 768px) {
     .products-grid {
-        -webkit-overflow-scrolling: touch !important;
-        scroll-behavior: smooth !important;
-        overflow-x: scroll !important;
-        overflow-y: hidden !important;
-        white-space: nowrap !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(212, 175, 55, 0.3) transparent !important;
-        touch-action: pan-x !important;
-        pointer-events: auto !important;
+        display: none !important;
     }
     
-    .products-grid::-webkit-scrollbar {
-        height: 8px !important;
+    .mobile-products-scroll {
         display: block !important;
-    }
-    
-    .products-grid::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border-radius: 4px !important;
-    }
-    
-    .products-grid::-webkit-scrollbar-thumb {
-        background: rgba(212, 175, 55, 0.6) !important;
-        border-radius: 4px !important;
-        border: 1px solid rgba(212, 175, 55, 0.3) !important;
-    }
-    
-    .products-grid::-webkit-scrollbar-thumb:hover {
-        background: rgba(212, 175, 55, 0.8) !important;
-    }
-    
-    .product-card {
-        touch-action: manipulation !important;
-        -webkit-tap-highlight-color: transparent !important;
-        pointer-events: auto !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
-    }
-    
-    .product-card * {
-        touch-action: manipulation !important;
-        pointer-events: auto !important;
-    }
-    
-    .products-grid:active {
-        cursor: grabbing !important;
-    }
-    
-    .products-grid.dragging {
-        scroll-behavior: auto !important;
     }
 }
 </style>
 
 <script>
-// Mobile Touch Scrolling Enhancement
+// Simple mobile scrolling - no complex JavaScript needed
 document.addEventListener('DOMContentLoaded', function() {
-    const productsGrid = document.querySelector('.products-grid');
-    
-    if (productsGrid) {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        let isTouch = false;
-        
-        // Touch events for mobile
-        productsGrid.addEventListener('touchstart', function(e) {
-            isTouch = true;
-            startX = e.touches[0].pageX - productsGrid.offsetLeft;
-            scrollLeft = productsGrid.scrollLeft;
-            productsGrid.classList.add('dragging');
-        }, { passive: true });
-        
-        productsGrid.addEventListener('touchmove', function(e) {
-            if (!isTouch) return;
-            e.preventDefault();
-            const x = e.touches[0].pageX - productsGrid.offsetLeft;
-            const walk = (x - startX) * 2; // Scroll speed
-            productsGrid.scrollLeft = scrollLeft - walk;
-        }, { passive: false });
-        
-        productsGrid.addEventListener('touchend', function() {
-            isTouch = false;
-            productsGrid.classList.remove('dragging');
-        }, { passive: true });
-        
-        // Mouse events for desktop
-        productsGrid.addEventListener('mousedown', function(e) {
-            if (window.innerWidth <= 768) { // Only on mobile view
-                isDown = true;
-                startX = e.pageX - productsGrid.offsetLeft;
-                scrollLeft = productsGrid.scrollLeft;
-                productsGrid.classList.add('dragging');
-                e.preventDefault();
-            }
-        });
-        
-        productsGrid.addEventListener('mouseleave', function() {
-            isDown = false;
-            productsGrid.classList.remove('dragging');
-        });
-        
-        productsGrid.addEventListener('mouseup', function() {
-            isDown = false;
-            productsGrid.classList.remove('dragging');
-        });
-        
-        productsGrid.addEventListener('mousemove', function(e) {
-            if (!isDown || window.innerWidth > 768) return;
-            e.preventDefault();
-            const x = e.pageX - productsGrid.offsetLeft;
-            const walk = (x - startX) * 2; // Scroll speed
-            productsGrid.scrollLeft = scrollLeft - walk;
-        });
-        
-        // Prevent click events while scrolling
-        let isScrolling = false;
-        productsGrid.addEventListener('scroll', function() {
-            isScrolling = true;
-            clearTimeout(isScrolling.timeout);
-            isScrolling.timeout = setTimeout(function() {
-                isScrolling = false;
-            }, 100);
-        });
-        
-        // Prevent button clicks during scroll
-        const buttons = productsGrid.querySelectorAll('.shop-now-btn');
-        buttons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                if (isScrolling) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-            });
-        });
-        
-        // Force horizontal scroll on wheel event (for trackpad users)
-        productsGrid.addEventListener('wheel', function(e) {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                productsGrid.scrollLeft += e.deltaY;
-            }
-        }, { passive: false });
-    }
+    // The mobile container now uses basic HTML scrolling
+    console.log('Mobile scrolling initialized');
 });
 </script>
 
