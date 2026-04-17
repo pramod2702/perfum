@@ -5,6 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from .models import TrialPack
 import json
 import razorpay
@@ -88,7 +89,9 @@ class CreateTrialPackView(View):
 # Alternative function-based view
 @csrf_exempt
 @require_http_methods(["POST"])
+@login_required(login_url='/login/')
 def create_trial_pack(request):
+    """Create trial pack order - requires authentication"""
     try:
         # Get form data
         name = request.POST.get('name', '').strip()

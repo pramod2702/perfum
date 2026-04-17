@@ -365,6 +365,14 @@
         function openRazorpayDirect() {
             console.log('Opening Razorpay with dynamic price');
             
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('Please login to proceed with payment');
+                window.location.href = '/login/';
+                return;
+            }
+            
             // Validate form fields first
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();

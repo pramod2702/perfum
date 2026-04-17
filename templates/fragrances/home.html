@@ -3,6 +3,13 @@
 
 {% block title %}VICTNOW - Luxury Reimagined for the Modern Professional{% endblock %}
 
+{% block extra_head %}
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="cache-buster" content="{% now 'U' %}">
+{% endblock %}
+
 {% block content %}
 <!-- Hero Section -->
 <section class="hero-section" style="background-image: url('/static/images/perfume.png') !important; background-size: cover !important; background-position: center !important; background-attachment: scroll !important; background-repeat: no-repeat !important; min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; position: relative;">
@@ -32,13 +39,13 @@
             </div>
         </div>
         <div class="products-gri d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px;">
-            {% for product in featured_products %}
+            {% for product in products %}
             <div class="product-card flex-shrink-0" style="min-width: 280px; max-width: 280px;">
                 <div class="product-image mb-3">
                     {% if product.image %}
                         <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
                     {% else %}
-                        <img src="{% static 'images/default-perfume.jpg' %}" class="img-fluid rounded" alt="{{ product.name }}">
+                        <img src="{% static 'images/perfume.png' %}" class="img-fluid rounded" alt="{{ product.name }}">
                     {% endif %}
                 </div>
                 <div class="product-info text-center">
@@ -52,13 +59,24 @@
                     </div>
                     
                     <p class="price h4 text-warning mb-3">₹{{ product.price }}</p>
-                    <button class="shop-now-btn add-to-cart-btn w-100 btn btn-warning {% if product.stock_status == 'out_of_stock' %}disabled{% endif %}" 
+                    <button class="luxury-cart-btn {% if product.stock_status == 'out_of_stock' %}disabled{% endif %}" 
                             data-product-id="{{ product.id }}" 
                             data-product-name="{{ product.name|escapejs }}" 
                             data-product-price="{{ product.price }}" 
                             data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}"
-                            data-stock-status="{{ product.stock_status|default:'in_stock' }}"> 
-                            <i class="fas fa-shopping-cart me-2"></i> {% if product.stock_status == 'out_of_stock' %}Out of Stock{% else %}Add to Cart{% endif %}
+                            data-stock-status="{{ product.stock_status|default:'in_stock' }}">
+                        <div class="btn-content">
+                            <div class="btn-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="9" cy="21" r="1"></circle>
+                                    <circle cx="20" cy="21" r="1"></circle>
+                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                </svg>
+                            </div>
+                            <span class="btn-text">{% if product.stock_status == 'out_of_stock' %}Out of Stock{% else %}Add to Cart{% endif %}</span>
+                            <div class="btn-shine"></div>
+                        </div>
+                        <div class="btn-border"></div>
                     </button>
                 </div>
             </div>
@@ -585,32 +603,288 @@
     outline: 3px solid rgba(212, 175, 55, 0.7) !important;
     outline-offset: 2px !important;
 }
+
+.luxury-cart-btn {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.luxury-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 25px rgba(212, 175, 55, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #d4af37 0%, #f4e4a1 50%, #d4af37 100%);
+}
+
+.luxury-cart-btn:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 10px rgba(212, 175, 55, 0.3),
+        0 1px 5px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.btn-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.luxury-cart-btn:hover .btn-content {
+    color: #1a1a1a;
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.2);
+    transition: all 0.3s ease;
+}
+
+.luxury-cart-btn:hover .btn-icon {
+    background: rgba(26, 26, 26, 0.2);
+    transform: scale(1.1);
+}
+
+.btn-icon svg {
+    color: #d4af37;
+    transition: all 0.3s ease;
+}
+
+.luxury-cart-btn:hover .btn-icon svg {
+    color: #1a1a1a;
+}
+
+.btn-text {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #d4af37;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.luxury-cart-btn:hover .btn-text {
+    color: #1a1a1a;
+    font-weight: 700;
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.luxury-cart-btn:hover .btn-shine {
+    left: 100%;
+}
+
+.btn-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, #d4af37, #f4e4a1, #d4af37) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: subtract;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.luxury-cart-btn:hover .btn-border {
+    opacity: 1;
+}
+
+/* Success state */
+.luxury-cart-btn.success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #28a745 100%);
+    animation: successPulse 0.6s ease;
+}
+
+.luxury-cart-btn.success .btn-text,
+.luxury-cart-btn.success .btn-icon svg {
+    color: white;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .luxury-cart-btn {
+        height: 45px !important;
+    }
+    
+    .btn-text {
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .luxury-cart-btn {
+        height: 42px !important;
+    }
+    
+    .btn-text {
+        font-size: 12px !important;
+    }
+    
+    .btn-icon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
 </style>
 
 <script>
-// Add to Cart functionality
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.add-to-cart-btn')) {
-        const button = e.target.closest('.add-to-cart-btn');
-        const productId = button.dataset.productId;
-        const productName = button.dataset.productName;
-        const productPrice = button.dataset.productPrice;
-        const productImage = button.dataset.productImage;
-        const stockStatus = button.dataset.stockStatus || 'in_stock';
+// Add to Cart functionality - Same as collection page
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('=== INITIALIZING HOMEPAGE ADD TO CART ===');
+    
+    // Find all Add to Cart buttons (support both old and new classes)
+    const addToCartButtons = document.querySelectorAll('.luxury-cart-btn, .shop-now-btn.add-to-cart-btn');
+    console.log('Found Add to Cart buttons:', addToCartButtons.length);
+    
+    addToCartButtons.forEach((button, index) => {
+        console.log(`Button ${index}:`, {
+            productId: button.dataset.productId,
+            productName: button.dataset.productName,
+            productPrice: button.dataset.productPrice,
+            productImage: button.dataset.productImage
+        });
         
-        // Check if product is out of stock
-        if (stockStatus === 'out_of_stock') {
-            showNotification('This product is out of stock', 'error');
-            return;
-        }
-        
-        // Call the addToCart function from base.html
-        if (typeof addToCart === 'function') {
-            addToCart(productId, productName, productPrice, productImage);
-        } else {
-            console.error('addToCart function not found');
-        }
-    }
+        // Add click event listener
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('=== HOMEPAGE BUTTON CLICKED ===');
+            console.log('Button data:', {
+                productId: this.dataset.productId,
+                productName: this.dataset.productName,
+                productPrice: this.dataset.productPrice,
+                productImage: this.dataset.productImage,
+                stockStatus: this.dataset.stockStatus
+            });
+            
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productPrice = parseFloat(this.dataset.productPrice);
+            const productImage = this.dataset.productImage;
+            const stockStatus = this.dataset.stockStatus || 'in_stock';
+            
+            // Check if product is out of stock
+            if (stockStatus === 'out_of_stock') {
+                showNotification('This product is out of stock', 'error');
+                return;
+            }
+            
+            // Validate data
+            if (!productId || !productName || !productPrice) {
+                console.error('Missing product data');
+                showNotification('Invalid product data', 'error');
+                return;
+            }
+            
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                showNotification('Please login to add items to cart', 'error');
+                setTimeout(() => {
+                    window.location.href = '/login/';
+                }, 1500);
+                return;
+            }
+            
+            // Store in localStorage
+            let cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+            
+            // Check if item already exists
+            const existingItemIndex = cartData.findIndex(item => item.id === productId);
+            
+            if (existingItemIndex !== -1) {
+                // Update existing item
+                cartData[existingItemIndex].quantity += 1;
+                cartData[existingItemIndex].subtotal += productPrice;
+            } else {
+                // Add new item
+                cartData.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1,
+                    subtotal: productPrice,
+                    image: productImage
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('cartData', JSON.stringify(cartData));
+            
+            // Show success message
+            showNotification(`${productName} added to cart!`, 'success');
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Visual feedback
+            const originalContent = this.innerHTML;
+            this.innerHTML = `
+                <div class="btn-content">
+                    <div class="btn-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="btn-text">Added!</span>
+                    <div class="btn-shine"></div>
+                </div>
+                <div class="btn-border"></div>
+            `;
+            
+            setTimeout(() => {
+                this.innerHTML = originalContent;
+            }, 2000);
+        });
+    });
+    
+    console.log('Homepage Add to Cart event listeners attached successfully');
 });
 
 // Initialize cart count on page load
@@ -620,5 +894,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"> 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/privacy/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> +91 8055854596</p>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); display: flex; align-items: center;"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/victnow_perfume?igsh=MTYzemp0cTV2OHVtcA==" target="_blank" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); cursor: pointer; display: inline-block;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
+                    <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
+                        {% csrf_token %}
+                        <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
+                        <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 {% endblock %}

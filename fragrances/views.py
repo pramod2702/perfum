@@ -33,7 +33,7 @@ def home(request):
     # Always load products regardless of query parameters
     products = Product.objects.all().order_by('-created_at')
     context = {'products': products}
-    return render(request, 'index.html', context)
+    return render(request, 'fragrances/home.html', context)
 
 def collection(request):
     # Log query parameters for debugging Instagram in-app browser issues
@@ -345,9 +345,20 @@ def orders(request):
 
 @csrf_exempt
 def add_to_cart(request):
-    """Add item to user's cart"""
+    """Add item to user's cart - requires authentication"""
     print("=== ADD TO CART START ===")
     print(f"Request method: {request.method}")
+    print(f"Authenticated user: {request.user.username if request.user.is_authenticated else 'Not authenticated'}")
+    
+    # Check authentication for AJAX requests
+    if not request.user.is_authenticated:
+        print("User not authenticated - returning JSON error")
+        return JsonResponse({
+            'success': False,
+            'error': 'Authentication required',
+            'login_required': True,
+            'redirect_url': '/login/'
+        })
     
     if request.method == 'POST':
         try:
@@ -359,8 +370,8 @@ def add_to_cart(request):
             
             print(f"Product ID: {product_id}, Quantity: {quantity}")
             
-            # Get user from localStorage or use anonymous user
-            user = request.user if request.user.is_authenticated else None
+            # Get authenticated user
+            user = request.user
             print(f"Authenticated user: {user}")
             
             if not user:
@@ -788,11 +799,12 @@ def corporate_gifting(request):
     context = {}
     return render(request, 'fragrances/corporate_gifting.html', context)
 
+@login_required(login_url='/login/')
 def bulk_order_process(request):
-    """Process enhanced bulk order submission"""
+    """Process enhanced bulk order submission - requires authentication"""
     if request.method == 'POST':
         try:
-            print(f"BULK ORDER: Received POST request")
+            print(f"BULK ORDER: Received POST request from authenticated user: {request.user.username}")
             print(f"BULK ORDER: POST data: {dict(request.POST)}")
             
             # Get form data
@@ -1320,8 +1332,11 @@ def reviews(request):
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/login/')
 def contact(request):
+    """Contact form submission - requires authentication"""
     try:
         if request.method == 'POST':
             name = request.POST.get('name')

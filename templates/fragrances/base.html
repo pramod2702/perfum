@@ -1173,6 +1173,7 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
 </head>
 <body style="padding-top: 76px;">
     <!-- Bootstrap Navigation -->
@@ -1628,10 +1629,9 @@
             // Check if user is logged in
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
             if (!currentUser) {
-                showNotification('Please login to add items to cart', 'error');
-                setTimeout(() => {
-                    window.location.href = '/login/';
-                }, 1500);
+                alert('Please login to add items to cart');
+                const currentUrl = encodeURIComponent(window.location.pathname + window.location.search);
+                window.location.href = `/login/?next=${currentUrl}`;
                 return;
             }
 
